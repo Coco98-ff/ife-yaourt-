@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ifè — Yaourt & Dègûê Artisanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#E8640A;--orange-light:#F4934A;--orange-pale:#FDE8D4;
+  --cream:#FDF6ED;--brown:#6B3A1F;--white:#FFFFFF;--text:#3A1F08;--text-muted:#7A5230;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:1rem 5%;
+  background:rgba(253,246,237,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(232,100,10,.15);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 24px rgba(107,58,31,.12)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;
+  color:var(--orange);letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--brown);font-weight:700;font-size:.85rem;
+  letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--orange)}
+.btn-nav{background:var(--orange)!important;color:#fff!important;padding:.5rem 1.3rem;border-radius:50px}
+.btn-nav:hover{background:var(--brown)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--brown);border-radius:2px}
+#hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;padding-top:80px;
+  background:linear-gradient(135deg,#FDF0E0 0%,#F5D9A8 60%,#E8B870 100%)}
+.hero-overlay{position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(253,246,237,.97) 0%,rgba(253,246,237,.85) 50%,rgba(253,246,237,.2) 100%)}
+.hero-deco{position:absolute;right:0;top:0;bottom:0;width:45%;
+  background:url('https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80') center/cover;opacity:.35}
+.hero-content{position:relative;z-index:2;padding:4rem 5%;max-width:620px;animation:fadeUp .9s ease both}
+.hero-badge{display:inline-block;background:var(--orange-pale);color:var(--orange);font-size:.75rem;
+  font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:50px;
+  margin-bottom:1.4rem;border:1px solid rgba(232,100,10,.25)}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:900;
+  line-height:1.1;color:var(--brown);margin-bottom:1.2rem}
+.hero-title em{font-style:italic;color:var(--orange)}
+.hero-sub{font-size:1.05rem;color:var(--text-muted);line-height:1.7;margin-bottom:2.2rem;max-width:460px}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--orange);color:#fff;text-decoration:none;padding:.85rem 2rem;
+  border-radius:50px;font-weight:700;font-size:.95rem;transition:background .25s,transform .2s;
+  box-shadow:0 6px 24px rgba(232,100,10,.35);cursor:pointer;border:none;display:inline-block}
+.btn-primary:hover{background:var(--brown);transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--brown);text-decoration:none;padding:.85rem 2rem;
+  border-radius:50px;font-weight:700;font-size:.95rem;border:2px solid var(--brown);
+  transition:background .25s,color .25s;cursor:pointer;display:inline-block}
+.btn-secondary:hover{background:var(--brown);color:#fff}
+section{padding:6rem 5%}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:.6rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;
+  color:var(--brown);line-height:1.2;margin-bottom:1rem}
+.section-desc{font-size:1rem;color:var(--text-muted);line-height:1.7;max-width:520px}
+#produits{background:var(--white)}
+.produits-header{margin-bottom:3.5rem}
+.produits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}
+.card{background:var(--cream);border-radius:24px;overflow:hidden;transition:transform .3s,box-shadow .3s;
+  border:1px solid rgba(232,100,10,.1)}
+.card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(107,58,31,.15)}
+.card-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:5rem}
+.card-body{padding:1.5rem}
+.card-tag{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem}
+.card-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--brown);margin-bottom:.5rem}
+.card-desc{font-size:.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:1.2rem}
+.card-flavors{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem}
+.flavor-pill{background:var(--orange-pale);color:var(--brown);font-size:.72rem;font-weight:700;
+  padding:.25rem .75rem;border-radius:50px;border:1px solid rgba(232,100,10,.2)}
+.btn-card{width:100%;background:var(--orange);color:#fff;border:none;padding:.7rem;border-radius:12px;
+  font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s}
+.btn-card:hover{background:var(--brown)}
+#about{background:var(--cream)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-img-wrap{position:relative;border-radius:32px;overflow:hidden;box-shadow:0 24px 60px rgba(107,58,31,.2)}
+.about-img-wrap img{width:100%;height:420px;object-fit:cover;object-position:top}
+.about-badge{position:absolute;bottom:1.5rem;left:1.5rem;background:var(--orange);
+  color:#fff;padding:.7rem 1.2rem;border-radius:16px;font-weight:700;font-size:.88rem}
+.args-grid{display:flex;flex-direction:column;gap:2rem;margin-top:2rem}
+.arg-item{display:flex;gap:1.2rem;align-items:flex-start}
+.arg-icon{width:52px;height:52px;border-radius:14px;background:var(--orange-pale);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.arg-text h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--brown);margin-bottom:.3rem}
+.arg-text p{font-size:.88rem;color:var(--text-muted);line-height:1.6}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(58,31,8,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--cream);border-radius:28px;width:100%;max-width:520px;
+  max-height:90vh;overflow-y:auto;padding:2.5rem;position:relative;
+  animation:fadeUp .4s ease both;box-shadow:0 40px 100px rgba(58,31,8,.25)}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;background:var(--orange-pale);
+  border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;color:var(--brown)}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--brown);margin-bottom:.4rem}
+.modal-sub{font-size:.88rem;color:var(--text-muted);margin-bottom:2rem}
+.prod-selector{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.5rem}
+.prod-option{display:flex;align-items:center;gap:1rem;padding:1rem;background:#fff;
+  border-radius:16px;border:2px solid transparent;cursor:pointer;transition:border-color .2s}
+.prod-option:hover{border-color:var(--orange-light)}
+.prod-option.selected{border-color:var(--orange);box-shadow:0 4px 16px rgba(232,100,10,.2)}
+.prod-icon{font-size:2rem;width:46px;text-align:center}
+.prod-info{flex:1}
+.prod-name{font-weight:700;color:var(--brown);font-size:.95rem}
+.prod-detail{font-size:.78rem;color:var(--text-muted);margin-top:.1rem}
+.qty-ctrl{display:flex;align-items:center;gap:.5rem}
+.qty-btn{background:var(--orange-pale);border:none;width:28px;height:28px;border-radius:50%;
+  cursor:pointer;font-size:1rem;font-weight:700;color:var(--brown);display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:var(--orange);color:#fff}
+.qty-num{font-weight:700;color:var(--brown);min-width:18px;text-align:center}
+.flavor-group{margin-bottom:1.5rem}
+.flavor-group label{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-muted);display:block;margin-bottom:.6rem}
+.flavor-options{display:flex;flex-wrap:wrap;gap:.5rem}
+.flavor-btn{background:#fff;border:1.5px solid rgba(232,100,10,.25);color:var(--brown);
+  padding:.35rem .9rem;border-radius:50px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s}
+.flavor-btn:hover,.flavor-btn.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:.8rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.4rem}
+.form-group input,.form-group textarea{width:100%;padding:.8rem 1rem;border-radius:12px;
+  border:1.5px solid rgba(107,58,31,.2);background:#fff;font-size:.9rem;color:var(--text);
+  font-family:'Lato',sans-serif;transition:border-color .2s;resize:vertical}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--orange)}
+.order-summary{background:var(--orange-pale);border-radius:16px;padding:1rem 1.2rem;
+  margin-bottom:1.5rem;font-size:.88rem;color:var(--brown);min-height:44px}
+.btn-whatsapp{width:100%;background:#25D366;color:#fff;border:none;padding:1rem;border-radius:16px;
+  font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  gap:.75rem;transition:background .2s,transform .2s;box-shadow:0 8px 28px rgba(37,211,102,.35)}
+.btn-whatsapp:hover{background:#1EB858;transform:translateY(-2px)}
+.btn-whatsapp svg{width:22px;height:22px;fill:#fff}
+footer{background:#2A0F00;color:rgba(255,255,255,.5);text-align:center;padding:2rem 5%;font-size:.82rem;line-height:1.7}
+footer strong{color:#F4934A}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:900px){.about-inner{grid-template-columns:1fr}.about-img-wrap img{height:300px}}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;
+    background:var(--cream);padding:1.5rem 5%;gap:1.2rem;border-bottom:1px solid rgba(232,100,10,.15)}
+  .hamburger{display:flex}
+  section{padding:4rem 5%}
+  .modal{padding:1.8rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">Ifè</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#produits">Produits</a></li>
+    <li><a href="#about">Notre histoire</a></li>
+    <li><a href="#" class="btn-nav" onclick="openModal();return false">Commander</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<section id="hero">
+  <div class="hero-deco"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">🥛 Yaourt &amp; Dègûê Artisanal du Bénin</span>
+    <h1 class="hero-title">Le goût <em>authentique</em><br/>qui nourrit votre âme</h1>
+    <p class="hero-sub">Riche en vitamines et très nutritif — préparé à la main, avec amour, selon les traditions du Bénin.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="openModal()">Commander maintenant</button>
+      <a href="#produits" class="btn-secondary">Voir nos produits</a>
+    </div>
+  </div>
+</section>
+
+<section id="produits">
+  <div class="produits-header reveal">
+    <p class="section-label">Ce que nous offrons</p>
+    <h2 class="section-title">Nos produits artisanaux</h2>
+    <p class="section-desc">Chaque bouteille est préparée à la main, avec du lait frais sélectionné — du soin à chaque goutte.</p>
+  </div>
+  <div class="produits-grid">
+    <div class="card reveal">
+      <div class="card-img" style="background:linear-gradient(135deg,#FDE8D4,#F9C99A)">🥛</div>
+      <div class="card-body">
+        <p class="card-tag">Le classique</p>
+        <h3 class="card-title">Yaourt Nature</h3>
+        <p class="card-desc">Un yaourt pur et crémeux, fermenté naturellement. Parfait seul ou avec vos accompagnements favoris.</p>
+        <div class="card-flavors"><span class="flavor-pill">Sans sucre</span><span class="flavor-pill">Riche en probiotiques</span></div>
+        <button class="btn-card" onclick="openModal('yaourt')">Commander ce produit</button>
+      </div>
+    </div>
+    <div class="card reveal" style="animation-delay:.1s">
+      <div class="card-img" style="background:linear-gradient(135deg,#FAEAC5,#F5CE7A)">🍚</div>
+      <div class="card-body">
+        <p class="card-tag">La spécialité</p>
+        <h3 class="card-title">Dègûê</h3>
+        <p class="card-desc">Notre dègûê signature : yaourt onctueux mêlé de couscous fin, sucré juste comme il faut. Un vrai délice du terroir.</p>
+        <div class="card-flavors"><span class="flavor-pill">Nature</span><span class="flavor-pill">Sucré</span></div>
+        <button class="btn-card" onclick="openModal('degue')">Commander ce produit</button>
+      </div>
+    </div>
+    <div class="card reveal" style="animation-delay:.2s">
+      <div class="card-img" style="background:linear-gradient(135deg,#FFD6D1,#FFA59A)">🍓</div>
+      <div class="card-body">
+        <p class="card-tag">Les saveurs</p>
+        <h3 class="card-title">Yaourt aux Fruits</h3>
+        <p class="card-desc">Des arômes naturels de fruits tropicaux pour une expérience fraîche et gourmande à chaque gorgée.</p>
+        <div class="card-flavors"><span class="flavor-pill">Fraise</span><span class="flavor-pill">Mangue</span><span class="flavor-pill">Ananas</span><span class="flavor-pill">Banane</span></div>
+        <button class="btn-card" onclick="openModal('fruit')">Commander ce produit</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1571167366136-b57e37568dd0?w=600&q=80" alt="Préparation artisanale Ifè"/>
+      <div class="about-badge">🤲 Fait main avec amour</div>
+    </div>
+    <div class="reveal">
+      <p class="section-label">Notre engagement</p>
+      <h2 class="section-title">Pourquoi choisir Ifè ?</h2>
+      <p class="section-desc">Nous mettons un point d'honneur à vous offrir le meilleur de la tradition alimentaire du Bénin.</p>
+      <div class="args-grid">
+        <div class="arg-item">
+          <div class="arg-icon">🌿</div>
+          <div class="arg-text"><h3>100 % Naturel</h3><p>Pas d'additifs, pas de conservateurs. Uniquement du lait frais et des ingrédients sélectionnés avec soin.</p></div>
+        </div>
+        <div class="arg-item">
+          <div class="arg-icon">💪</div>
+          <div class="arg-text"><h3>Riche &amp; Nutritif</h3><p>Source naturelle de vitamines, calcium et probiotiques — bon pour toute la famille.</p></div>
+        </div>
+        <div class="arg-item">
+          <div class="arg-icon">🤲</div>
+          <div class="arg-text"><h3>Artisanal &amp; Local</h3><p>Chaque bouteille est préparée à la main, selon les recettes transmises de génération en génération.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Ifè</strong> — Yaourt &amp; Dègûê Artisanal du Bénin</p>
+  <p style="margin-top:.4rem">Riche en vitamines et très nutritif &nbsp;·&nbsp; 📞 +229 01 51 56 40 31</p>
+  <p style="margin-top:.4rem;font-size:.75rem;opacity:.4">© 2025 Ifè. Tous droits réservés.</p>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">Passer une commande</h2>
+    <p class="modal-sub">Choisissez vos produits — votre commande sera envoyée directement sur WhatsApp 🎉</p>
+    <p style="font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.8rem">Sélectionnez vos produits</p>
+    <div class="prod-selector">
+      <div class="prod-option" id="opt-yaourt" onclick="toggleProduct('yaourt')">
+        <div class="prod-icon">🥛</div>
+        <div class="prod-info"><div class="prod-name">Yaourt Nature</div><div class="prod-detail">Pur, crémeux, fermenté naturellement</div></div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(event,'yaourt',-1)">−</button>
+          <span class="qty-num" id="qty-yaourt">0</span>
+          <button class="qty-btn" onclick="changeQty(event,'yaourt',1)">+</button>
+        </div>
+      </div>
+      <div class="prod-option" id="opt-degue" onclick="toggleProduct('degue')">
+        <div class="prod-icon">🍚</div>
+        <div class="prod-info"><div class="prod-name">Dègûê</div><div class="prod-detail">Yaourt au couscous, spécialité du terroir</div></div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(event,'degue',-1)">−</button>
+          <span class="qty-num" id="qty-degue">0</span>
+          <button class="qty-btn" onclick="changeQty(event,'degue',1)">+</button>
+        </div>
+      </div>
+      <div class="prod-option" id="opt-fruit" onclick="toggleProduct('fruit')">
+        <div class="prod-icon">🍓</div>
+        <div class="prod-info"><div class="prod-name">Yaourt aux Fruits</div><div class="prod-detail">Fraise · Mangue · Ananas · Banane</div></div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(event,'fruit',-1)">−</button>
+          <span class="qty-num" id="qty-fruit">0</span>
+          <button class="qty-btn" onclick="changeQty(event,'fruit',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div id="flavor-section" style="display:none">
+      <div class="flavor-group">
+        <label>Saveur du yaourt aux fruits</label>
+        <div class="flavor-options">
+          <button class="flavor-btn" onclick="selectFlavor(this,'Fraise')">🍓 Fraise</button>
+          <button class="flavor-btn" onclick="selectFlavor(this,'Mangue')">🥭 Mangue</button>
+          <button class="flavor-btn" onclick="selectFlavor(this,'Ananas')">🍍 Ananas</button>
+          <button class="flavor-btn" onclick="selectFlavor(this,'Banane')">🍌 Banane</button>
+          <button class="flavor-btn" onclick="selectFlavor(this,'Mixte')">🎨 Mixte</button>
+        </div>
+      </div>
+    </div>
+    <div class="order-summary" id="orderSummary">
+      <span style="color:var(--text-muted);font-style:italic">Aucun produit sélectionné…</span>
+    </div>
+    <div class="form-group">
+      <label>Votre prénom *</label>
+      <input type="text" id="clientName" placeholder="Ex: Ama, Kofi…"/>
+    </div>
+    <div class="form-group">
+      <label>Quartier / Lieu de livraison</label>
+      <input type="text" id="clientAddr" placeholder="Ex: Cadjehoun, Cotonou…"/>
+    </div>
+    <div class="form-group">
+      <label>Remarques (optionnel)</label>
+      <textarea id="clientNote" rows="2" placeholder="Moins sucré, heure préférée…"></textarea>
+    </div>
+    <button class="btn-whatsapp" onclick="sendToWhatsApp()">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Envoyer ma commande sur WhatsApp
+    </button>
+  </div>
+</div>
+
+<script>
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>40));
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+function openModal(pre){document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';if(pre){qty[pre]=Math.max(1,qty[pre]);updateUI();}}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+const qty={yaourt:0,degue:0,fruit:0};let selectedFlavor='';
+function toggleProduct(p){if(qty[p]===0)qty[p]=1;updateUI();}
+function changeQty(e,p,d){e.stopPropagation();qty[p]=Math.max(0,qty[p]+d);updateUI();}
+function updateUI(){
+  ['yaourt','degue','fruit'].forEach(p=>{
+    document.getElementById('qty-'+p).textContent=qty[p];
+    document.getElementById('opt-'+p).classList.toggle('selected',qty[p]>0);
+  });
+  document.getElementById('flavor-section').style.display=qty.fruit>0?'block':'none';
+  updateSummary();
+}
+function selectFlavor(btn,flavor){document.querySelectorAll('.flavor-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');selectedFlavor=flavor;updateSummary();}
+function updateSummary(){
+  const lines=[];
+  if(qty.yaourt>0)lines.push('🥛 Yaourt Nature x'+qty.yaourt);
+  if(qty.degue>0)lines.push('🍚 Dègûê x'+qty.degue);
+  if(qty.fruit>0)lines.push('🍓 Yaourt aux Fruits x'+qty.fruit+(selectedFlavor?' ('+selectedFlavor+')':''));
+  document.getElementById('orderSummary').innerHTML=lines.length?'<strong>Votre commande :</strong><br>'+lines.join('<br>'):'<span style="color:var(--text-muted);font-style:italic">Aucun produit sélectionné…</span>';
+}
+function sendToWhatsApp(){
+  if(qty.yaourt+qty.degue+qty.fruit===0){alert('Veuillez sélectionner au moins un produit !');return;}
+  const name=document.getElementById('clientName').value.trim();
+  if(!name){alert('Veuillez entrer votre prénom.');return;}
+  const addr=document.getElementById('clientAddr').value.trim();
+  const note=document.getElementById('clientNote').value.trim();
+  let msg='🌟 *Nouvelle commande Ifè*\n\n';
+  msg+='👤 Client : '+name+'\n';
+  if(addr)msg+='📍 Livraison : '+addr+'\n';
+  msg+='\n🛒 *Commande :*\n';
+  if(qty.yaourt>0)msg+='• Yaourt Nature x'+qty.yaourt+'\n';
+  if(qty.degue>0)msg+='• Dègûê x'+qty.degue+'\n';
+  if(qty.fruit>0)msg+='• Yaourt aux Fruits x'+qty.fruit+(selectedFlavor?' — Saveur '+selectedFlavor:'')+'\n';
+  if(note)msg+='\n📝 Remarques : '+note;
+  msg+='\n\n_Envoyé via le site Ifè_ 🥛';
+  window.open('https://wa.me/22901515640 31'.replace(/\s/g,'')+'?text='+encodeURIComponent(msg),'_blank');
+  closeModal();
+}
+</script>
+
+</body>
+</html>
